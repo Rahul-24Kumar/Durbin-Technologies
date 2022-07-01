@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Durbin Technologies </title>
+</head>
+
+<body style="margin-left: 400px; background-color: rgb(173, 200, 299);">
+
+    <input type="file" id="inpFile" style=" 
+    vertical-align: middle;
+    margin: 5px 10px 5px 0;
+    padding: 10px;
+    background-color: rgb(25, 255, 25);
+    border: 5px solid black;">
+
+    <br>
+    <br>
+
+    <button type="button" id="btnUpload"
+        style="background-color: turquoise; border: 5px solid black; padding: 15px 32px">Upload</button>
+
+    <br>
+    <br>
+
+    <textarea style="width: 700px; height: 600px; font-size: large; border: 5px solid black; background-color: lightpink;" id="resultText"
+        placeholder="resume will appear..."></textarea>
+
+    <script>
+
+        const inpFile = document.getElementById("inpFile");
+
+        const btnUpload = document.getElementById("btnUpload");
+
+        const resultText = document.getElementById("resultText");
+
+        btnUpload.addEventListener("click", () => {
+            const formData = new FormData();
+
+            formData.append("pdfFile", inpFile.files[0]);
+
+            fetch("/extract-text", {
+                method: "post",
+                body: formData
+
+            }).then(response => {
+                return response.text();
+
+            }).then(extractedText => {
+                resultText.value = extractedText.trim();
+
+            });
+
+        });
+
+    </script>
+</body>
+
+</html>
